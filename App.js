@@ -9,6 +9,8 @@ export default function App() {
   const [hasPermission, setHasPermission] = useState(null);
   const [scanned, setScanned] = useState(false);
 
+  _getId
+
   useEffect(() => {
     (async () => {
       const { status } = await BarCodeScanner.requestPermissionsAsync();
@@ -60,6 +62,29 @@ const CustomButton = props => {
     </TouchableOpacity>
   );
 };
+
+const _insertid = async () => {
+  var userId = 1;
+  try {
+      await AsyncStorage.setItem('id', userId);
+  } catch (error) {
+      console.log("Erreur insertId");
+  }
+}
+
+const _getId = async () => {
+  try {
+      const value = await AsyncStorage.getItem('id');
+      if (value !== null) {
+          console.log(value);
+      }else{
+      _insertid;
+      }
+  } catch (error) {
+      console.log("Erreur getID");
+  }
+}
+
 
 const styles = StyleSheet.create({
   container: {
