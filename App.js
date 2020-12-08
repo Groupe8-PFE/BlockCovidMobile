@@ -1,34 +1,13 @@
 import { StatusBar } from 'expo-status-bar';
-import React, { useState, useEffect } from 'react';
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import { BarCodeScanner } from 'expo-barcode-scanner';
+import { StyleSheet, Text, TouchableOpacity, View, __spread } from 'react-native';
+import React, { useState, useEffect }  from 'react';
+import barcode from './barcode.js'
 
-export default function App() {
-  var dataScanned;
 
-  const [hasPermission, setHasPermission] = useState(null);
-  const [scanned, setScanned] = useState(false);
+
+  export default function  App() {
 
   _getId
-
-  useEffect(() => {
-    (async () => {
-      const { status } = await BarCodeScanner.requestPermissionsAsync();
-      setHasPermission(status === 'granted');
-    })();
-  }, []);
-  const handleBarCodeScanned = ({ type, data }) => {
-    setScanned(true);
-    alert(`le code qr ${type} a scanné ces données : ${data} !`);
-    dataScanned=data;
-  };
-  
-  if (hasPermission === null) {
-    return <Text>L'application doit avoir accès à la camera</Text>;
-  }
-  if (hasPermission === false) {
-    return <Text>vous n'avez pas d'accès à la caméra</Text>;
-  }
   return (
 
 
@@ -36,10 +15,6 @@ export default function App() {
     <View style={styles.container}>
       <Text style={styles.container}>Bienvenue sur{"\n"}BlockCovid !</Text>
       <CustomButton/>
-      <BarCodeScanner
-        onBarCodeScanned={scanned ? undefined : handleBarCodeScanned}
-        style={StyleSheet.absoluteFillObject}
-      />
       <Text style ={styles.container2}>{"\n"}Scanne les codes QR dans les établissements participants afin de lutter contre la propagation du virus. </Text>       
       <StatusBar style="auto" />
     </View> 
@@ -53,7 +28,7 @@ export default function App() {
 
 const CustomButton = props => {
   return (
-    <TouchableOpacity onPress={props.onPress}>
+    <TouchableOpacity onPress={barcode}>
     <View style={{...styles.button, ...props.style}}>
     <Text styles={{...styles.buttonText,...props.textStyling}}> SCAN
       {props.children} 
@@ -83,6 +58,39 @@ const _getId = async () => {
   } catch (error) {
       console.log("Erreur getID");
   }
+}
+
+function scan(){
+
+  var dataScanned;
+
+  const [hasPermission, setHasPermission] = useState(null);
+  const [scanned, setScanned] = useState(false);
+
+  useEffect(() => {
+    (async () => {
+      const { status } = await BarCodeScanner.requestPermissionsAsync();
+      setHasPermission(status === 'granted');
+    })();
+  }, []);
+  const handleBarCodeScanned = ({ type, data }) => {
+    setScanned(true);
+    alert(`le code qr ${type} a scanné ces données : ${data} !`);
+    dataScanned=data;
+  };
+  
+  if (hasPermission === null) {
+     return <Text>L'application doit avoir accès à la camera</Text>;
+  }
+  if (hasPermission === false) {
+    return <Text>vous n'avez pas d'accès à la caméra</Text>;
+  }
+  return(
+    <BarCodeScanner
+    onBarCodeScanned={scanned ? undefined : handleBarCodeScanned}
+    style={StyleSheet.absoluteFillObject}
+  />
+);
 }
 
 
