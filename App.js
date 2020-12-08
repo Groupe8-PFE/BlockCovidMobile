@@ -1,23 +1,71 @@
 import { StatusBar } from 'expo-status-bar';
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
 export default function App() {
   return (
+
+    
     <View style={styles.container}>
-      <Text>Bienvenue sur BlockCovid !
-        Scanne les codes QR dans les établissements participants afin de lutter contre la propagation du virus 
-      </Text>
+      <Text style={styles.container}>Bienvenue sur{"\n"}BlockCovid !</Text>
+      <CustomButton/>
+      <Text style ={styles.container2}>{"\n"}Scanne les codes QR dans les établissements participants afin de lutter contre la propagation du virus.</Text>       
       <StatusBar style="auto" />
-    </View>
+    </View> 
+   
+  
   );
+ 
+      
+  
 }
+
+
+
+
+
+const CustomButton = props => {
+  return (
+    <TouchableOpacity onPress={props.onPress}>
+    <View style={{...styles.button, ...props.style}}>
+    <Text styles={{...styles.buttonText,...props.textStyling}}> SCAN
+      {props.children} 
+    </Text>
+    </View>
+    </TouchableOpacity>
+  );
+};
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    flex: 6,
+    textAlign: 'center',
     backgroundColor: '#fff',
     alignItems: 'center',
+    marginHorizontal : 20,
+    justifyContent: 'center',
+    textAlignVertical :'center',
+    fontSize : 40
+  },
+  container2: {
+    flex: 1,
+    textAlign: 'center',
+    backgroundColor: '#fff',
+    alignItems: 'center',
+    marginHorizontal : 20,
     justifyContent: 'center',
   },
+  button: {
+    backgroundColor: '#7fffd4',
+    paddingHorizontal : 85,
+    paddingVertical : 25,
+    borderRadius : 45
+    
+  },
+  buttonText: {
+    color: "red",
+    fontSize : 40
+  }
+
 });
+
