@@ -2,6 +2,33 @@ import React from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, TouchableOpacity, View, __spread } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import { AsyncStorage } from "@react-native-community/async-storage";
+
+
+
+ const _retrieveData = async () => {
+  console.log("f745454j");
+  try {
+      const value = await AsyncStorage.getItem('id');
+      if (value !== null) {
+          console.log(value);
+      }
+      console.log("fdjedj");
+      _storeData;
+  } catch (error) {
+      // Error retrieving data
+  }
+}
+const _storeData = async () => {
+  axiosexp
+  try {
+      await AsyncStorage.setItem('id', 'John');
+  } catch (error) {
+      // Error saving data
+  }
+}
+
+
  
 const styles = StyleSheet.create({
     container: {
@@ -36,7 +63,9 @@ const styles = StyleSheet.create({
 });
  
 const LandingScreen = () => {
+  
   const navigation=useNavigation();
+ 
     return (
         <View style={styles.container}>
         <Text style={styles.container}>Bienvenue sur{"\n"}BlockCovid !</Text>
@@ -64,16 +93,6 @@ const CustomButton = props => {
 
   );
 };
-const CustomButton2 = props => {
-    return (
-    
-      <View style={{...styles.button, ...props.style}}>
-      <Text styles={{...styles.buttonText,...props.textStyling}}> SCAN
-        {props.children} 
-      </Text>
-      </View>
-    
-    );
-};
+
  
 export default LandingScreen;
