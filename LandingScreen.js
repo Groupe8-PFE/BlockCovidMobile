@@ -9,8 +9,6 @@ import Constants from 'expo-constants';
 
  var idCitoyen=0;
 
-
-
  const _retrieveData = async () => {
   console.log("Enter retrieveData");
   try {
@@ -106,7 +104,7 @@ const LandingScreen = () => {
         <View style={styles.container}>
         <Text style={styles.container}>Bienvenue sur{"\n"}BlockCovid !</Text>
         <CustomButton onPress={() => {
-          navigation.navigate("Home" );
+          navigation.navigate("Home");
         }}
         />
         <Text style ={styles.container2}>{"\n"}Scanne les codes QR dans les établissements participants afin de lutter contre la propagation du virus. </Text>       
