@@ -8,7 +8,7 @@ import axios from 'axios'
 import Constants from 'expo-constants';
 import ExpoStatusBar from 'expo-status-bar/build/ExpoStatusBar';
 
-  const idUser= 1;
+  const idUser= 2;
   
  const _retrieveData = async () => {
   console.log("Enter retrieveData");
@@ -82,7 +82,7 @@ const styles = StyleSheet.create({
 });
  
 const LandingScreen = () => {
-if(Constants.installationId === '9c78668a-3d0c-4fd6-8e3a-e433159c3267'){
+if(Constants.installationId === '22344914-21f7-4459-aa84-a848ae3ec321'){
   console.log("ok ok");
 }
   const navigation=useNavigation();
