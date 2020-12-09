@@ -7,14 +7,15 @@ import { AsyncStorage } from 'react-native';
 import axios from 'axios'
 
   var idUser;
-
+  var auth=false;
  const _retrieveData = async () => {
-  console.log("f745454j");
+  console.log("Enter retrieveData");
   try {
     console.log("enter try")
-      const value = await AsyncStorage.getItem('id');
+      const value = await AsyncStorage.getItem('test12');
       if (value !== null) {
-          console.log(value);
+          auth=true;
+          console.log(value+" : VALUE");
           console.log("if value !=== null");
       }else{
       console.log("if value is null");
@@ -24,12 +25,16 @@ import axios from 'axios'
       console.log(error+" erreur message");
   }
 }
+
 const _storeData = async () => {
-  request = axios.post('http://localhost:8000/api/citoyens', '')
-  idUser = request.then(response=>response.data);
+  console.log("enter storeDAta");
+  const request = axios.post('https://blockcovid-api.herokuapp.com/api/citoyens','')
+  .then(res=> res.data);
+  //idUser = request.then(response=>response.data);
+  console.log(+ " ::id user");
   try {
     console.log(AsyncStorage.getAllKeys());
-      await AsyncStorage.setItem('id', idUser);
+      await AsyncStorage.setItem('test12', '22');
       console.log(idUser);
   } catch (error) {
     console.log(error+" erreur message");
