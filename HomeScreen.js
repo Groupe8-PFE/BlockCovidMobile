@@ -3,6 +3,8 @@ import { Text, View, StyleSheet, Button } from 'react-native';
 import { BarCodeScanner } from 'expo-barcode-scanner';
 import { useNavigation } from '@react-navigation/native';
 import axios from 'axios';
+import Constants from 'expo-constants';
+
 let idCitoyen;
 const styles = StyleSheet.create({
   container: {
@@ -47,17 +49,18 @@ const HomeScreen = () => {
     const id=datas.id;
     const role=datas.role;
     console.log("id = "+id+" / role = "+role);
+    console.log(Constants.installationId + " installationID");
     if(role==="medecin"){
       const QrMedecin = {
         medecin_id:id,
-        citoyen_id:23
+        device_id:Constants.installationId
       };
       axios.post('https://blockcovid-api.herokuapp.com/api/scan_medecins',QrMedecin).then(res=> res.data);
       
     }else{
       console.log("pas médecin");
     }
-   
+  
   };
 
   //asking for permition
