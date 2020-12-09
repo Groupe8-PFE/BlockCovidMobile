@@ -2,21 +2,25 @@ import React from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, TouchableOpacity, View, __spread } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import { AsyncStorage } from "@react-native-community/async-storage";
+//import { AsyncStorage } from "@react-native-community/async-storage";
+import { AsyncStorage } from 'react-native';
 
 
 
  const _retrieveData = async () => {
   console.log("f745454j");
   try {
+    console.log("enter try")
       const value = await AsyncStorage.getItem('id');
       if (value !== null) {
           console.log(value);
+          console.log("if value !=== null");
+      }else{
+      console.log("if value exist");
+      _storeData();
       }
-      console.log("fdjedj");
-      _storeData;
   } catch (error) {
-      // Error retrieving data
+      console.log(error+" erreur message");
   }
 }
 const _storeData = async () => {
@@ -24,7 +28,7 @@ const _storeData = async () => {
   try {
       await AsyncStorage.setItem('id', 'John');
   } catch (error) {
-      // Error saving data
+    console.log(error+" erreur message");
   }
 }
 
@@ -65,21 +69,7 @@ const styles = StyleSheet.create({
 const LandingScreen = () => {
   
   const navigation=useNavigation();
-  _retrieveData(() => {
-   (async () => {
-    console.log("f745454j");
-    try {
-        const value = await AsyncStorage.getItem('id');
-        if (value !== null) {
-            console.log(value);
-        }
-        console.log("fdjedj");
-        _storeData;
-    } catch (error) {
-        // Error retrieving data
-    }
-  })();
-}, []);
+  _retrieveData();
     return (
         <View style={styles.container}>
         <Text style={styles.container}>Bienvenue sur{"\n"}BlockCovid !</Text>
