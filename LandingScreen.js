@@ -4,8 +4,9 @@ import { StyleSheet, Text, TouchableOpacity, View, __spread } from 'react-native
 import { useNavigation } from '@react-navigation/native';
 //import { AsyncStorage } from "@react-native-community/async-storage";
 import { AsyncStorage } from 'react-native';
+import axios from 'axios'
 
-
+  var idUser;
 
  const _retrieveData = async () => {
   console.log("f745454j");
@@ -16,7 +17,7 @@ import { AsyncStorage } from 'react-native';
           console.log(value);
           console.log("if value !=== null");
       }else{
-      console.log("if value exist");
+      console.log("if value is null");
       _storeData();
       }
   } catch (error) {
@@ -24,9 +25,12 @@ import { AsyncStorage } from 'react-native';
   }
 }
 const _storeData = async () => {
-  axiosexp
+  request = axios.post('http://localhost:8000/api/citoyens', '')
+  idUser = request.then(response=>response.data);
   try {
-      await AsyncStorage.setItem('id', 'John');
+    console.log(AsyncStorage.getAllKeys());
+      await AsyncStorage.setItem('id', idUser);
+      console.log(idUser);
   } catch (error) {
     console.log(error+" erreur message");
   }
