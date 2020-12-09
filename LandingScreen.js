@@ -5,16 +5,18 @@ import { useNavigation } from '@react-navigation/native';
 //import { AsyncStorage } from "@react-native-community/async-storage";
 import { AsyncStorage } from 'react-native';
 import axios from 'axios'
+import Constants from 'expo-constants';
+import ExpoStatusBar from 'expo-status-bar/build/ExpoStatusBar';
 
-  var idUser;
-  var auth=false;
+  const idUser= 1;
+  
  const _retrieveData = async () => {
   console.log("Enter retrieveData");
   try {
     console.log("enter try")
-      const value = await AsyncStorage.getItem('test12');
+      const value = await AsyncStorage.getItem('Iaza');
       if (value !== null) {
-          auth=true;
+          
           console.log(value+" : VALUE");
           console.log("if value !=== null");
       }else{
@@ -28,17 +30,21 @@ import axios from 'axios'
 
 const _storeData = async () => {
   console.log("enter storeDAta");
-  const request = axios.post('https://blockcovid-api.herokuapp.com/api/citoyens','')
+  const citoyen={device_id:Constants.installationId};
+  const request = axios.post('https://blockcovid-api.herokuapp.com/api/citoyens',citoyen)
   .then(res=> res.data);
+ 
+  //console.log(idUSer);
   //idUser = request.then(response=>response.data);
   console.log(+ " ::id user");
   try {
-    console.log(AsyncStorage.getAllKeys());
-      await AsyncStorage.setItem('test12', '22');
+  
+      await AsyncStorage.setItem('Iaza', 'connected');
       console.log(idUser);
   } catch (error) {
     console.log(error+" erreur message");
   }
+ // axios.get('https://blockcovid-api.herokuapp.com/api/citoyens')
 }
 
 
@@ -76,7 +82,9 @@ const styles = StyleSheet.create({
 });
  
 const LandingScreen = () => {
-  
+if(Constants.installationId === '9c78668a-3d0c-4fd6-8e3a-e433159c3267'){
+  console.log("ok ok");
+}
   const navigation=useNavigation();
   _retrieveData();
     return (
