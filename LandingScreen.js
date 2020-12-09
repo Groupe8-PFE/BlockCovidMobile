@@ -4,17 +4,18 @@ import { StyleSheet, Text, TouchableOpacity, View, __spread } from 'react-native
 import { useNavigation } from '@react-navigation/native';
 //import { AsyncStorage } from "@react-native-community/async-storage";
 import { AsyncStorage } from 'react-native';
-import axios from 'axios'
+import axios from 'axios';
 import Constants from 'expo-constants';
-import ExpoStatusBar from 'expo-status-bar/build/ExpoStatusBar';
 
-  const idUser= 2;
-  
+ var idCitoyen=0;
+
+
+
  const _retrieveData = async () => {
   console.log("Enter retrieveData");
   try {
     console.log("enter try")
-      const value = await AsyncStorage.getItem('Iaza');
+      const value = await AsyncStorage.getItem('Daza');
       if (value !== null) {
           
           console.log(value+" : VALUE");
@@ -33,20 +34,12 @@ const _storeData = async () => {
   const citoyen={device_id:Constants.installationId};
   const request = axios.post('https://blockcovid-api.herokuapp.com/api/citoyens',citoyen)
   .then(res=> res.data);
- 
-  //console.log(idUSer);
-  //idUser = request.then(response=>response.data);
-  console.log(+ " ::id user");
   try {
-  
-      await AsyncStorage.setItem('Iaza', 'connected');
-      console.log(idUser);
+      await AsyncStorage.setItem('Daza', 'connected');
   } catch (error) {
     console.log(error+" erreur message");
   }
- // axios.get('https://blockcovid-api.herokuapp.com/api/citoyens')
 }
-
 
  
 const styles = StyleSheet.create({
@@ -81,12 +74,34 @@ const styles = StyleSheet.create({
     }
 });
  
+
+
+ //LandinScreen ==> ecran d'accueil démarage ordi
 const LandingScreen = () => {
-if(Constants.installationId === '22344914-21f7-4459-aa84-a848ae3ec321'){
-  console.log("ok ok");
-}
+
+  //const to use navigation.navigate
   const navigation=useNavigation();
-  _retrieveData();
+
+  console.log("Before axios Get");
+
+  //22344914-21f7-4459-aa84-a848ae3ec321 ${Constants.installationId}
+
+  //PAS TRES CLAIR ATTENTION A VERIFIER to get 
+    axios.get(`https://blockcovid-api.herokuapp.com/api/citoyens/${Constants.installationId}`)
+    .then((res) => {
+      console.log("into axios");
+      idCitoyen=res.data[0].id;
+      console.log(idCitoyen+" : ID citoyen");
+      
+
+      console.log(idCitoyen +" IDCITOYEN AFTER GET YESs");
+  
+      console.log(idCitoyen+" AFTER AXIOS");
+      _retrieveData();
+    });
+  
+
+  
     return (
         <View style={styles.container}>
         <Text style={styles.container}>Bienvenue sur{"\n"}BlockCovid !</Text>
@@ -99,6 +114,8 @@ if(Constants.installationId === '22344914-21f7-4459-aa84-a848ae3ec321'){
       </View> 
     );
 };
+
+
 const CustomButton = props => {
   return (
 

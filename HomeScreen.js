@@ -2,7 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { Text, View, StyleSheet, Button } from 'react-native';
 import { BarCodeScanner } from 'expo-barcode-scanner';
 import { useNavigation } from '@react-navigation/native';
- 
+import axios from 'axios';
+let idCitoyen;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -10,10 +11,25 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
 });
- 
+
+//method to get the user ID
+const getId =() => {
+  axios.get(`https://blockcovid-api.herokuapp.com/api/citoyens/22344914-21f7-4459-aa84-a848ae3ec321`).then((res) => {
+  
+      console.log(res.data);
+      idCitoyen=res.data[0].id;
+    
+      console.log(idCitoyen+"ID");
+      
+    });
+}
+
+//handle the BarCode Screen
 const HomeScreen = () => {
+  //check if permission are granted
   const [hasPermission, setHasPermission] = useState(null);
   const [scanned, setScanned] = useState(false);
+  //const to use navigation.navigate
   const navigation=useNavigation();
 
   useEffect(() => {
@@ -22,18 +38,37 @@ const HomeScreen = () => {
       setHasPermission(status === 'granted');
     })();
   }, []);
-
+  //method to handleBarCodeSanner after scan
   const handleBarCodeScanned = ({ type, data }) => {
     setScanned(true);
     alert(`Bar code with type ${type} and data ${data} has been scanned!`);
+    //getId();
+    const datas=JSON.parse(data);
+    const id=datas.id;
+    const role=datas.role;
+    console.log("id = "+id+" / role = "+role);
+    if(role==="medecin"){
+      const QrMedecin = {
+        medecin_id:id,
+        citoyen_id:23
+      };
+      axios.post('https://blockcovid-api.herokuapp.com/api/scan_medecins',QrMedecin).then(res=> res.data);
+      
+    }else{
+      console.log("pas médecin");
+    }
+   
   };
 
+  //asking for permition
   if (hasPermission === null) {
     return <Text>Requesting for camera permission</Text>;
   }
   if (hasPermission === false) {
     return <Text>No access to camera</Text>;
   }
+
+  
 
   return (
     <View style={styles.container}>
@@ -47,19 +82,4 @@ const HomeScreen = () => {
   );
 };
 
-const CustomButton = props => {
-  return (
-
-    <TouchableOpacity onPress={props.onPress}>
-    <View style={{...styles.button, ...props.style}}>
-    <Text styles={{...styles.buttonText,...props.textStyling}}> SCAN
-      {props.children} 
-    </Text>
-    </View>
-    </TouchableOpacity>
-
- 
-
-  );
-};
 export default HomeScreen;
