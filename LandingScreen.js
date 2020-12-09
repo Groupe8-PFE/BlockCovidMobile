@@ -65,7 +65,21 @@ const styles = StyleSheet.create({
 const LandingScreen = () => {
   
   const navigation=useNavigation();
- 
+  _retrieveData(() => {
+   (async () => {
+    console.log("f745454j");
+    try {
+        const value = await AsyncStorage.getItem('id');
+        if (value !== null) {
+            console.log(value);
+        }
+        console.log("fdjedj");
+        _storeData;
+    } catch (error) {
+        // Error retrieving data
+    }
+  })();
+}, []);
     return (
         <View style={styles.container}>
         <Text style={styles.container}>Bienvenue sur{"\n"}BlockCovid !</Text>
