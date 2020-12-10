@@ -44,7 +44,9 @@ const registerForPushNotificationsAsync = async () => {
 
 
  const _retrieveData = async () => {
+  
   try {
+      await registerForPushNotificationsAsync()
       const value = await AsyncStorage.getItem('smartphone');
       if(value===null) {
         _storeData();
