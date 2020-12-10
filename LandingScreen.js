@@ -88,7 +88,7 @@ const LandingScreen = () => {
     axios.get(`https://blockcovid-api.herokuapp.com/api/citoyens/${Constants.installationId}`)
     .then((res) => {
       console.log("into axios");
-      idCitoyen=res.data[0].id;
+      //idCitoyen=res.data[0].id;
       console.log(idCitoyen+" : ID citoyen");
       
 

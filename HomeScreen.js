@@ -19,7 +19,7 @@ const getId =() => {
   axios.get(`https://blockcovid-api.herokuapp.com/api/citoyens/22344914-21f7-4459-aa84-a848ae3ec321`).then((res) => {
   
       console.log(res.data);
-      idCitoyen=res.data[0].id;
+      //idCitoyen=res.data[0].id;
     
       console.log(idCitoyen+"ID");
       
@@ -49,16 +49,26 @@ const HomeScreen = () => {
     const id=datas.id;
     const role=datas.role;
     console.log("id = "+id+" / role = "+role);
+    console.log(JSON.stringify(role))
     console.log(Constants.installationId + " installationID");
-    if(role==="medecin"){
+    console.log("test role :")
+    if(role==="Medecin"){
+      console.log("je suis medecin")
       const QrMedecin = {
         medecin_id:id,
         device_id:Constants.installationId
       };
       axios.post('https://blockcovid-api.herokuapp.com/api/scan_medecins',QrMedecin).then(res=> res.data);
-      
-    }else{
-      console.log("pas médecin");
+    }
+    else {
+      if(role==="Lieu") {
+        console.log("pas médecin");
+        const qrLieu = {
+          lieu_id:id,
+          device_id:Constants.installationId
+        };
+        axios.post('https://blockcovid-api.herokuapp.com/api/scan_lieus',qrLieu).then(res=> res.data);
+      }
     }
   
   };
