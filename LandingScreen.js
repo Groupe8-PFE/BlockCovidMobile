@@ -27,7 +27,7 @@ const registerForPushNotificationsAsync = async () => {
    }
    const token = (await Notifications.getExpoPushTokenAsync()).data;
    console.log(token)
-   await AsyncStorage.setItem('tokenDevice', JSON.stringify(token));
+   await AsyncStorage.setItem('tokenDevice', token);
  } else {
    alert('Must use physical device for Push Notifications');
  }
@@ -51,6 +51,8 @@ const registerForPushNotificationsAsync = async () => {
       }
       else {
         console.log("value =",value)
+        const new_token = await AsyncStorage.getItem('tokenDevice');
+        console.log(new_token)
       }
   } catch (error) {
       console.log(error+" erreur message");
