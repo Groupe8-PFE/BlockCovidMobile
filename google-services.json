@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "1053996145923",
+    "project_id": "test-notif-8812b",
+    "storage_bucket": "test-notif-8812b.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1053996145923:android:bfeb819832724a05ab9d36",
+        "android_client_info": {
+          "package_name": "com.blockcovidmobil"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1053996145923-ls0e00nkr84pvsfltevs02c5dfs8tdv5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAxiZhMXvWybqlwWh2l0ezj0y9t_3ZVGoQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1053996145923-ls0e00nkr84pvsfltevs02c5dfs8tdv5.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1",
+  "android": {
+    "googleServicesFile": "./google-services.json",
+  }
+}

@@ -1,26 +1,56 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, TouchableOpacity, View, __spread } from 'react-native';
+import { StyleSheet, Text, TouchableOpacity, View, __spread} from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 //import { AsyncStorage } from "@react-native-community/async-storage";
 import { AsyncStorage } from 'react-native';
 import axios from 'axios';
 import Constants from 'expo-constants';
+import * as Permissions from 'expo-permissions';
+import * as Notifications from 'expo-notifications';
 
- var idCitoyen=0;
+var idCitoyen=0;
+
+
+const registerForPushNotificationsAsync = async () => {
+  console.log("test token")
+ if (Constants.isDevice) {
+   const { status: existingStatus } = await Permissions.getAsync(Permissions.NOTIFICATIONS);
+   let finalStatus = existingStatus;
+   if (existingStatus !== 'granted') {
+     const { status } = await Permissions.askAsync(Permissions.NOTIFICATIONS);
+     finalStatus = status;
+   }
+   if (finalStatus !== 'granted') {
+     alert('Failed to get push token for push notification!');
+     return;
+   }
+   const token = (await Notifications.getExpoPushTokenAsync()).data;
+   console.log(token)
+   await AsyncStorage.setItem('tokenDevice', JSON.stringify(token));
+ } else {
+   alert('Must use physical device for Push Notifications');
+ }
+
+ if (Platform.OS === 'android') {
+   Notifications.setNotificationChannelAsync('default', {
+     name: 'default',
+     importance: Notifications.AndroidImportance.MAX,
+     vibrationPattern: [0, 250, 250, 250],
+     lightColor: '#FF231F7C',
+   });
+ }
+}
+
 
  const _retrieveData = async () => {
-  console.log("Enter retrieveData");
   try {
-    console.log("enter try")
-      const value = await AsyncStorage.getItem('Daza');
-      if (value !== null) {
-          
-          console.log(value+" : VALUE");
-          console.log("if value !=== null");
-      }else{
-      console.log("if value is null");
-      _storeData();
+      const value = await AsyncStorage.getItem('smartphone');
+      if(value===null) {
+        _storeData();
+      }
+      else {
+        console.log("value =",value)
       }
   } catch (error) {
       console.log(error+" erreur message");
@@ -28,12 +58,16 @@ import Constants from 'expo-constants';
 }
 
 const _storeData = async () => {
-  console.log("enter storeDAta");
-  const citoyen={device_id:Constants.installationId};
+  const new_token = await AsyncStorage.getItem('tokenDevice');
+  console.log(new_token)
+  const citoyen = {
+    device_id : Constants.installationId,
+    token_device : new_token
+  }
   const request = axios.post('https://blockcovid-api.herokuapp.com/api/citoyens',citoyen)
   .then(res=> res.data);
   try {
-      await AsyncStorage.setItem('Daza', 'connected');
+      await AsyncStorage.setItem('smartphone', 'Connected');
   } catch (error) {
     console.log(error+" erreur message");
   }
@@ -71,35 +105,22 @@ const styles = StyleSheet.create({
       fontSize : 40
     }
 });
- 
-
 
  //LandinScreen ==> ecran d'accueil démarage ordi
 const LandingScreen = () => {
-
   //const to use navigation.navigate
   const navigation=useNavigation();
-
-  console.log("Before axios Get");
-
-  //22344914-21f7-4459-aa84-a848ae3ec321 ${Constants.installationId}
-
-  //PAS TRES CLAIR ATTENTION A VERIFIER to get 
+  _retrieveData();
+  /*
+  useEffect(() => {
     axios.get(`https://blockcovid-api.herokuapp.com/api/citoyens/${Constants.installationId}`)
     .then((res) => {
-      console.log("into axios");
-      //idCitoyen=res.data[0].id;
-      console.log(idCitoyen+" : ID citoyen");
-      
-
-      console.log(idCitoyen +" IDCITOYEN AFTER GET YESs");
-  
-      console.log(idCitoyen+" AFTER AXIOS");
-      _retrieveData();
+      idCitoyen=res.data.id;
+     
     });
-  
-
-  
+  });
+  */
+  //PAS TRES CLAIR ATTENTION A VERIFIER to get 
     return (
         <View style={styles.container}>
         <Text style={styles.container}>Bienvenue sur{"\n"}BlockCovid !</Text>

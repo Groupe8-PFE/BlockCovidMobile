@@ -8,5 +8,8 @@
     "assetBundlePatterns": [
       "**/*"
     ]
+  },
+  "android": {
+    "googleServicesFile": "./google-services.json"
   }
 }
