@@ -44,7 +44,7 @@ const HomeScreen = () => {
   //method to handleBarCodeSanner after scan
   const handleBarCodeScanned = ({ type, data }) => {
     setScanned(true);
-    alert(`Bar code with type ${type} and data ${data} has been scanned!`);
+    alert(`Le qr Code a bien été scanné!`);
     //getId();
     const datas=JSON.parse(data);
     const id=datas.id;
@@ -90,8 +90,8 @@ const HomeScreen = () => {
         onBarCodeScanned={scanned ? undefined : handleBarCodeScanned}
         style={StyleSheet.absoluteFillObject}
       />
-      {scanned && <Button title={'Tap to Scan Again'} onPress={() => setScanned(false)} />}
-      {scanned && <Button title={'Tap to return to landing screen'} onPress={() => {navigation.navigate("Landing" );}} />}
+      {scanned && <Button title={'Appuyez pour refaire un scan'} onPress={() => setScanned(false)} />}
+      {scanned && <Button title={'Appuyez pour revenir sur Accueil '} onPress={() => {navigation.navigate("Landing" );}} />}
     </View>
   );
 };
