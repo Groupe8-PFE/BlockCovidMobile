@@ -14,7 +14,8 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
 });
-
+//for testing purpose
+/*
 //method to get the user ID
 const getId =() => {
   axios.get(`https://blockcovid-api.herokuapp.com/api/citoyens/22344914-21f7-4459-aa84-a848ae3ec321`).then((res) => {
@@ -26,6 +27,7 @@ const getId =() => {
       
     });
 }
+*/
 
 //handle the BarCode Screen
 const HomeScreen = () => {
