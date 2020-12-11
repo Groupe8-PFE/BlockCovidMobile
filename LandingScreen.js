@@ -63,7 +63,6 @@ const registerForPushNotificationsAsync = async () => {
 
 const _storeData = async () => {
   const new_token = await AsyncStorage.getItem('tokenDevice');
-  console.log(new_token)
   const citoyen = {
     device_id : Constants.installationId,
     token_device : new_token

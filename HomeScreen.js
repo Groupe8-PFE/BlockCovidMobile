@@ -51,10 +51,7 @@ const HomeScreen = () => {
     const datas=JSON.parse(data);
     const id=datas.id;
     const role=datas.role;
-    console.log("id = "+id+" / role = "+role);
     console.log(JSON.stringify(role))
-    console.log(Constants.installationId + " installationID");
-    console.log("test role :")
     if(role==="Medecin"){
       console.log("je suis medecin")
       const QrMedecin = {
